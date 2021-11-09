@@ -57,7 +57,6 @@ def get_available_dailies():
 
 
 if __name__ == "__main__":
-    # get_covid19_twitter("2021-10-31")
     dates = get_available_dailies()
     bucket_name = "covid19_twitter"
     for idx, date in enumerate(dates):
