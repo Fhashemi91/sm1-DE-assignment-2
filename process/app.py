@@ -457,16 +457,14 @@ language_code_2_name = F.udf(
     lambda language_code: LANGUAGE_MAP.get(language_code), StringType()
 )
 
-
 def main(path="gs://covid19_twitter/"):
     df = (
         spark.read.format("csv")
         .option("header", True)
         .option("delimiter", "\t")
         .load(path)
+        .withColumnRenamed("lang", "language_code")
         .withColumn("country", country_code_2_name(F.col("country_code")))
-        .withColumn("language_code", F.col("lang"))
-        .drop("lang")
         .withColumn("language", language_code_2_name(F.col("language_code")))
         .withColumn(
             "timestamp",
