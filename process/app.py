@@ -457,6 +457,7 @@ language_code_2_name = F.udf(
     lambda language_code: LANGUAGE_MAP.get(language_code), StringType()
 )
 
+
 def main(path="gs://covid19_twitter/"):
     df = (
         spark.read.format("csv")
@@ -472,11 +473,9 @@ def main(path="gs://covid19_twitter/"):
         )
     )
 
-    df.show()
-
-    df.repartition("date").write.partitionBy("date").mode("overwrite").format(
-        "bigquery"
-    ).option("temporaryGcsBucket", "temp-gcs-bucket").save(
+    df.repartition("country_code").write.partitionBy("country_code").mode(
+        "overwrite"
+    ).format("bigquery").option("temporaryGcsBucket", "temp-gcs-bucket").save(
         "de_assignment_2.covid19_twitter"
     )
 
