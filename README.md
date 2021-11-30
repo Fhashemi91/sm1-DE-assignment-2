@@ -21,3 +21,10 @@ you need to pass the following `jar` file to Extra Jar files section in the job 
 ```
  gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar 
  ```
+#### Process AWS 
+
+Make sure following properties is configured on the cluster:
+
+```
+dataproc:pip.packages='iso3166==2.0.2'
+```
