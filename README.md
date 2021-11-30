@@ -28,3 +28,4 @@ Make sure following properties is configured on the cluster:
 ```
 dataproc:pip.packages='iso3166==2.0.2'
 ```
+![console cluster config](static/cluster-properties.png)
