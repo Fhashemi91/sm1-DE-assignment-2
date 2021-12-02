@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession, functions as F
-from pyspark.sql.types import StringType
+from pyspark.sql.types import StringType, StructField, StructType
 
 
 builder = (
@@ -457,12 +457,23 @@ language_code_2_name = F.udf(
     lambda language_code: LANGUAGE_MAP.get(language_code), StringType()
 )
 
+schema = StructType(
+    [
+        StructField("tweet_id", StringType(), True),
+        StructField("date", StringType(), True),
+        StructField("time", StringType(), True),
+        StructField("lang", StringType(), True),
+        StructField("country_code", StringType(), True),
+    ]
+)
+
 
 def main(path="gs://covid19_twitter/"):
     df = (
         spark.read.format("csv")
         .option("header", True)
         .option("delimiter", "\t")
+        .schema(schema)
         .load(path)
         .withColumnRenamed("lang", "language_code")
         .withColumn("country", country_code_2_name(F.col("country_code")))

@@ -7,6 +7,7 @@ storage_client = storage.Client()
 def get_covid19_cases():
     """Download covid-19-world cases data from the aws repository. If fails to download, returns None."""
     url = "https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv"
+    print(f"downloading {url}")
     resp = requests.get(url)
     if not resp.status_code == 200:
         print(f"failed to download the file with status {resp.status_code}")
@@ -18,6 +19,7 @@ def get_covid19_cases():
 
 def upload_to_bucket(file_name, bucket_name):
     """Upload a file to desired `bucket_name`"""
+    print(f"uploading {file_name} to {bucket_name}")
     blob_name = file_name
     bucket = storage_client.get_bucket(bucket_name)
     blob = bucket.blob(blob_name)
@@ -28,7 +30,7 @@ def upload_to_bucket(file_name, bucket_name):
 
 
 def main():
-    bucket_name = "covid19_cases"
+    bucket_name = "covid19-cases"
     file_name = "covid-19-world-cases.csv"
     get_covid19_cases()
     print("Downloaded covid cases data")
